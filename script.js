@@ -3,12 +3,21 @@ let url = "https://cors-anywhere.herokuapp.com/https://services.runescape.com/m=
 let term = "";
 const input = document.querySelector("body");
 const display = document.getElementById("display");
+const item = document.querySelector("a");
 input.onkeydown = logKey;
+
+function showListing(e) {
+  console.log(e.target.id); // haha it doesnt work
+}
 
 function search() {
   if (term === "") {
     document.getElementById("results").textContent = "Start typing the name of an item to search for it.";
     return;
+  }
+  let element = document.getElementById("results");
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
   }
   results = "";
   j = 0;
@@ -17,11 +26,17 @@ function search() {
       continue;
     }
     if (ids[i].name.toLowerCase().includes(term.toLowerCase())) {
-      results += "<a>" + ids[i].name + "</a><br>";
+      let a = document.createElement("a");
+      let br = document.createElement("br");
+      a.id = ids[i].id;
+      a.textContent = ids[i].name;
+      document.getElementById("results").appendChild(a);
+      document.getElementById("results").appendChild(br);
+      item.onmousedown = showListing;
       j += 1;
     }
   }
-  document.getElementById("results").innerHTML = results;
+  //document.getElementById("results").innerHTML = results;
 }
 
 function logKey(e) {
