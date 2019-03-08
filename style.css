@@ -1,0 +1,31 @@
+body {
+  background: #23272A;
+  color: white;
+  transition: all 1s ease-in-out;
+  display: flex;
+  height: 100vh;
+}
+span {
+  color: var(--blue);
+}
+a:hover {
+  text-shadow: 0px 0px 4px #FFF;
+  cursor: pointer;
+}
+a:hover::before {
+  content: "> ";
+}
+#loader, #main {
+  display: block;
+  margin: auto;
+  font-size: 70px;
+}
+#search {
+  font-size: 40px;
+}
+#results {
+  font-size: 20px;
+}
+.hidden {
+  display: none!important;
+}
