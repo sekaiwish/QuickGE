@@ -26,6 +26,12 @@ a:hover::before {
 #results {
   font-size: 20px;
 }
+#sidebar {
+  background: #2C2F33;
+  min-width: 420px;
+  max-width: 420px;
+  padding: 1em;
+}
 .hidden {
   display: none!important;
 }

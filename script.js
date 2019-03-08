@@ -3,11 +3,19 @@ let url = "https://cors-anywhere.herokuapp.com/https://services.runescape.com/m=
 let term = "";
 const input = document.querySelector("body");
 const display = document.getElementById("display");
-const item = document.querySelector("a");
 input.onkeydown = logKey;
 
 function showListing(e) {
-  console.log(e.target.id); // haha it doesnt work
+  document.getElementById("item_name").textContent = e.target.textContent;
+  document.getElementById("item_icon").src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAQAAABIkb+zAAAAYklEQVR42u3PMQ0AAAwDoNW/6f110AQckBsXAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYH2/1MAYfXBYmQAAAAASUVORK5CYII=";
+  document.getElementById("item_price").textContent = "Loading...";
+  fetch(url + e.target.id).then(res => res.json()).then(
+    (out) => {
+      console.log(out);
+      document.getElementById("item_icon").src = out.item.icon_large;
+      document.getElementById("item_price").textContent = out.item.current.price;
+    }
+  ).catch(err => { throw err });
 }
 
 function search() {
@@ -32,11 +40,10 @@ function search() {
       a.textContent = ids[i].name;
       document.getElementById("results").appendChild(a);
       document.getElementById("results").appendChild(br);
-      item.onmousedown = showListing;
+      a.addEventListener("click", showListing);
       j += 1;
     }
   }
-  //document.getElementById("results").innerHTML = results;
 }
 
 function logKey(e) {
@@ -57,8 +64,11 @@ function logKey(e) {
 fetch(url + "5698").then(res => res.json()).then(
   (out) => {
     if (out.item.id === 5698) {
+      document.getElementById("item_icon").src = out.item.icon_large;
+      document.getElementById("item_price").textContent = out.item.current.price;
       document.getElementById("loader").classList = "hidden";
       document.getElementById("main").classList = "";
+      document.getElementById("sidebar").classList = "";
     }
   }
 ).catch(err => { throw err });
