@@ -5,11 +5,11 @@ body {
   display: flex;
   height: 100vh;
 }
-span {
+#search > span {
   color: var(--blue);
 }
 a:hover {
-  text-shadow: 0px 0px 4px #FFF;
+  color: white!important;
   cursor: pointer;
 }
 a:hover::before {
@@ -25,12 +25,34 @@ a:hover::before {
 }
 #results {
   font-size: 20px;
+  color: gray;
 }
 #sidebar {
   background: #2C2F33;
   min-width: 420px;
   max-width: 420px;
   padding: 1em;
+}
+p {
+  font-size: 2em;
+}
+#item_name {
+  margin-bottom: .7em;
+}
+#item_icon {
+  border: .5em solid #23272A;
+  background: #23272A;
+  border-radius: .5em;
+  margin-bottom: 1em;
+}
+#item_trend.positive {
+  color: lime;
+}
+#item_trend.negative {
+  color: red;
+}
+#item_trend.neutral {
+  color: white;
 }
 .hidden {
   display: none!important;

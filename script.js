@@ -6,14 +6,28 @@ const display = document.getElementById("display");
 input.onkeydown = logKey;
 
 function showListing(e) {
+  document.getElementById("sidebar").classList = "";
   document.getElementById("item_name").textContent = e.target.textContent;
   document.getElementById("item_icon").src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAQAAABIkb+zAAAAYklEQVR42u3PMQ0AAAwDoNW/6f110AQckBsXAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYH2/1MAYfXBYmQAAAAASUVORK5CYII=";
   document.getElementById("item_price").textContent = "Loading...";
+  document.getElementById("item_trend").classList = "";
+  document.getElementById("item_trend").textContent = "";
   fetch(url + e.target.id).then(res => res.json()).then(
     (out) => {
       console.log(out);
       document.getElementById("item_icon").src = out.item.icon_large;
+      document.getElementById("item_icon").alt = "Loading...";
       document.getElementById("item_price").textContent = out.item.current.price;
+      document.getElementById("item_trend").textContent = "(" + out.item.today.price + ")";
+      if (out.item.today.trend === "positive") {
+        document.getElementById("item_trend").classList = "positive";
+      } else if (out.item.today.trend === "negative") {
+        document.getElementById("item_trend").classList = "negative";
+        // Remove the space after the negative sign.
+        document.getElementById("item_trend").textContent = document.getElementById("item_trend").textContent.slice(0, 2) + document.getElementById("item_trend").textContent.slice(3, document.getElementById("item_trend").textContent.length);
+      } else {
+        document.getElementById("item_trend").classList = "neutral";
+      }
     }
   ).catch(err => { throw err });
 }
@@ -29,7 +43,8 @@ function search() {
   }
   results = "";
   j = 0;
-  for (var i = 0; i < ids.length; i++) {
+  let idsLength = ids.length;
+  for (var i = 0; i < idsLength; i++) {
     if (j > 15) {
       continue;
     }
@@ -53,7 +68,13 @@ function logKey(e) {
     search();
     return;
   }
-  if (/\w|\s/.test(String.fromCharCode(e.keyCode)) === false) {
+  if (e.keyCode === 27) {
+    display.textContent = "";
+    term = display.textContent;
+    search();
+    return;
+  }
+  if (/^[\s\w-]$/.test(e.key) === false) {
     return;
   }
   display.textContent += `${e.key}`;
@@ -61,6 +82,7 @@ function logKey(e) {
   search();
 }
 
+/*
 fetch(url + "5698").then(res => res.json()).then(
   (out) => {
     if (out.item.id === 5698) {
@@ -72,3 +94,8 @@ fetch(url + "5698").then(res => res.json()).then(
     }
   }
 ).catch(err => { throw err });
+*/
+
+document.getElementById("loader").classList = "hidden";
+document.getElementById("main").classList = "";
+document.getElementById("sidebar").classList = "hidden";
