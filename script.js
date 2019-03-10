@@ -41,7 +41,7 @@ function search() {
   while (element.firstChild) {
     element.removeChild(element.firstChild);
   }
-  results = "";
+  document.getElementById("results").textContent = "";
   j = 0;
   let idsLength = ids.length;
   for (var i = 0; i < idsLength; i++) {
@@ -58,6 +58,9 @@ function search() {
       a.addEventListener("click", showListing);
       j += 1;
     }
+  }
+  if (document.getElementById("results").childNodes.length === 0) {
+    document.getElementById("results").textContent = "No results found.";
   }
 }
 
@@ -81,20 +84,6 @@ function logKey(e) {
   term = display.textContent;
   search();
 }
-
-/*
-fetch(url + "5698").then(res => res.json()).then(
-  (out) => {
-    if (out.item.id === 5698) {
-      document.getElementById("item_icon").src = out.item.icon_large;
-      document.getElementById("item_price").textContent = out.item.current.price;
-      document.getElementById("loader").classList = "hidden";
-      document.getElementById("main").classList = "";
-      document.getElementById("sidebar").classList = "";
-    }
-  }
-).catch(err => { throw err });
-*/
 
 document.getElementById("loader").classList = "hidden";
 document.getElementById("main").classList = "";
