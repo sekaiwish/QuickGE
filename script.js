@@ -66,6 +66,7 @@ function search() {
 
 function logKey(e) {
   if (e.keyCode === 8) {
+    e.preventDefault();
     display.textContent = display.textContent.substring(0, display.textContent.length - 1);
     term = display.textContent;
     search();
