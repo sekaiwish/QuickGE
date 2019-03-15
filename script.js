@@ -10,6 +10,7 @@ function showListing(e) {
   document.getElementById("item_name").textContent = e.target.textContent;
   document.getElementById("item_icon").src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAQAAABIkb+zAAAAYklEQVR42u3PMQ0AAAwDoNW/6f110AQckBsXAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAYH2/1MAYfXBYmQAAAAASUVORK5CYII=";
   document.getElementById("item_price").textContent = "Loading...";
+  document.getElementById("item_desc").textContent = "Loading...";
   document.getElementById("item_trend").classList = "";
   document.getElementById("item_trend").textContent = "";
   fetch(url + e.target.id).then(res => res.json()).then(
@@ -17,6 +18,7 @@ function showListing(e) {
       console.log(out);
       document.getElementById("item_icon").src = out.item.icon_large;
       document.getElementById("item_icon").alt = "Loading...";
+      document.getElementById("item_desc").textContent = out.item.description;
       document.getElementById("item_price").textContent = out.item.current.price;
       document.getElementById("item_trend").textContent = "(" + out.item.today.price + ")";
       if (out.item.today.trend === "positive") {
