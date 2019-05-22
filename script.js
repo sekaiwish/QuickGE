@@ -1,4 +1,3 @@
-console.log(ids)
 let url = "https://cors-anywhere.herokuapp.com/https://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=";
 let term = "";
 const input = document.querySelector("body");
@@ -15,21 +14,24 @@ function showListing(e) {
   document.getElementById("item_trend").textContent = "";
   fetch(url + e.target.id).then(res => res.json()).then(
     (out) => {
-      console.log(out);
+      // Sometimes API returns insecure HTTP image URLs even though HTTPS links are always valid
+      if (out.item.icon_large[4] === ":") {
+        out.item.icon_large = out.item.icon_large.slice(0, 4) + "s" + out.item.icon_large.slice(4, out.item.icon_large.length);
+      }
       document.getElementById("item_icon").src = out.item.icon_large;
       document.getElementById("item_icon").alt = "Loading...";
       document.getElementById("item_desc").textContent = out.item.description;
       document.getElementById("item_price").textContent = out.item.current.price;
-      document.getElementById("item_trend").textContent = "(" + out.item.today.price + ")";
       if (out.item.today.trend === "positive") {
         document.getElementById("item_trend").classList = "positive";
       } else if (out.item.today.trend === "negative") {
         document.getElementById("item_trend").classList = "negative";
         // Remove the space after the negative sign.
-        document.getElementById("item_trend").textContent = document.getElementById("item_trend").textContent.slice(0, 2) + document.getElementById("item_trend").textContent.slice(3, document.getElementById("item_trend").textContent.length);
+        out.item.today.price = out.item.today.price[0] + out.item.today.price.slice(2, out.item.today.price.length);
       } else {
         document.getElementById("item_trend").classList = "neutral";
       }
+      document.getElementById("item_trend").textContent = "(" + out.item.today.price + ")";
     }
   ).catch(err => { throw err });
 }
@@ -80,7 +82,7 @@ function logKey(e) {
     search();
     return;
   }
-  if (/^[\s\w-]$/.test(e.key) === false) {
+  if (/^[\s\w-()/]$/.test(e.key) === false) {
     return;
   }
   display.textContent += `${e.key}`;
